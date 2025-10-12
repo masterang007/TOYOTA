@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOYOTA Financing Calculator — WAWA Kemaman (Mobile)</title>
+<style>
+  :root{--red:#c10000;--yellow:#fff2cc;--blue:#ddebf7;--card:#fff;--border:#e6e6e6}
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif}
+  body{margin:0;background:#fafafa;color:#111}
+  header{position:sticky;top:0;z-index:10;background:var(--red);color:#fff;padding:12px 16px;display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px}
+  .wrap{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+  .section-title{background:#0001;padding:10px 14px;font-weight:800}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+  label{font-size:12px;color:#333}
+  input,select{width:100%;padding:12px;border:1px solid #d7d7d7;border-radius:12px;font-size:16px;background:#fff}
+  input[type="range"]{padding:0}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pill{padding:14px;border-radius:12px;text-align:center;font-weight:800}
+  .pill h3{margin:0 0 6px 0;font-size:13px;font-weight:700;letter-spacing:.2px}
+  .pill .amount{font-size:22px;font-weight:900}
+  .pill.red{background:#ffe5e5}
+  .pill.yellow{background:var(--yellow)}
+  .pill.blue{background:var(--blue)}
+  .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}
+  .summary{padding:12px 14px;font-size:14px;line-height:1.55}
+  .elig{background:#0d6efd;color:#fff;text-align:center;padding:8px 10px;font-weight:800}
+  .elig-box{padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .elig-item{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+  .money{font-variant-numeric:tabular-nums}
+  footer{padding:10px 16px;color:#666;font-size:12px;text-align:center}
+  .imgcard{padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center}
+  .imgwrap{width:100%;max-width:420px;aspect-ratio:16/9;background:#f6f6f6;border:1px solid #eee;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .imgwrap img{width:100%;height:100%;object-fit:cover}
+  .badge{display:inline-block;background:#e74c3c;color:#fff;padding:6px 10px;border-radius:10px;font-weight:800;margin-top:10px}
+  .sales{background:var(--yellow);padding:14px;border-radius:12px;width:100%;max-width:420px}
+  .sales h3{margin:0 0 8px 0}
+  .muted{color:#666;font-size:12px}
+  @media (max-width: 900px){
+    .wrap{grid-template-columns:1fr;gap:12px;padding:12px}
+    .grid{grid-template-columns:1fr}
+    .calc-grid{grid-template-columns:1fr}
+    .elig-box{grid-template-columns:1fr}
+    header h1{font-size:16px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1 id="banner">TOYOTA — Kemaman (WAWA)</h1>
+    <div class="muted">WhatsApp: 011‑11028971</div>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="section-title">Variant & Pricing</div>
+      <div class="grid">
+        <div>
+          <label for="variant">Variant</label>
+          <select id="variant"></select>
+        </div>
+        <div>
+          <label>Model</label>
+          <input id="model" readonly>
+        </div>
+
+        <div>
+          <label>Selling Price (RM)</label>
+          <input id="price" readonly class="money">
+        </div>
+        <div>
+          <label>Insurance (RM)</label>
+          <input id="insurance" readonly class="money">
+        </div>
+
+        <div>
+          <label>Standard Rebate (RM)</label>
+          <input id="stdRebate" type="number" value="0" min="0" step="100" class="money">
+        </div>
+        <div>
+          <label>Extra Rebate (RM)</label>
+          <input id="extraRebate" type="number" value="0" min="0" step="100" class="money">
+        </div>
+
+        <div>
+          <label>NCD %</label>
+          <input id="ncd" type="range" min="0" max="100" value="55" step="5">
+          <div class="muted"><span id="ncdLabel">55</span>%</div>
+        </div>
+        <div class="row">
+          <div>
+            <label>Downpayment %</label>
+            <input id="dpct" type="number" min="0" max="100" step="1" value="10">
+          </div>
+          <div>
+            <label>Interest Rate % (annual)</label>
+            <input id="rate" type="number" min="0" max="10" step="0.01" value="3.00">
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Calculated</div>
+      <div class="grid">
+        <div>
+          <label>Net Insurance after NCD (RM)</label>
+          <input id="netIns" readonly class="money">
+        </div>
+        <div>
+          <label>Downpayment (RM)</label>
+          <input id="dpRM" readonly class="money">
+        </div>
+        <div>
+          <label>Loan Amount (RM)</label>
+          <input id="loan" readonly class="money">
+        </div>
+      </div>
+
+      <div class="calc-grid">
+        <div class="pill red">
+          <h3>Monthly (5 years)</h3>
+          <div class="amount money" id="m5">RM 0.00</div>
+        </div>
+        <div class="pill yellow">
+          <h3>Monthly (7 years)</h3>
+          <div class="amount money" id="m7">RM 0.00</div>
+        </div>
+        <div class="pill blue">
+          <h3>Monthly (9 years)</h3>
+          <div class="amount money" id="m9">RM 0.00</div>
+        </div>
+      </div>
+
+      <div class="elig">JOM CHECK KELAYAKAN DULU</div>
+      <div class="elig-box">
+        <div class="elig-item">✅ Gaji tunai (cash)</div>
+        <div class="elig-item">✅ Pendapatan rendah (low income)</div>
+        <div class="elig-item">✅ Masalah PTPTN</div>
+        <div class="elig-item">✅ Komitmen tinggi (high commitment)</div>
+        <div class="elig-item">❌ Tiada lesen (license)</div>
+        <div class="elig-item">❌ SSM kurang 2 tahun</div>
+        <div class="elig-item">❌ Ada CTOS (LAYAK MOHON)</div>
+        <div class="elig-item"><strong id="eligMsg"></strong></div>
+      </div>
+      <div class="summary"><strong>Note:</strong> Prices & insurance are seeded from your Toyota flyer. You can adjust rebates, NCD, downpayment and interest to compute instalments.</div>
+    </div>
+
+    <div class="card imgcard">
+      <div class="section-title">Model Image</div>
+      <div class="imgwrap">
+        <img id="modelImg" alt="Model image" referrerpolicy="no-referrer">
+      </div>
+      <div class="sales">
+        <h3>WAWA</h3>
+        <div>TOYOTA KEMAMAN</div>
+        <div style="font-size:22px;font-weight:900;margin-top:6px;">011 11028971</div>
+        <div class="badge">TRADE‑IN ACCEPTED</div>
+      </div>
+      <div class="summary muted">Tip: I can swap in official Toyota MY photos per model on request.</div>
+    </div>
+  </div>
+
+  <footer>Mobile Toyota calculator • © WAWA Toyota Kemaman</footer>
+
+<script>
+// ----- Toyota dataset (from your flyer) -----
+const DATA = [
+  // CAMRY
+  {variant:'Camry 2.5V (AT)',        model:'CAMRY',          price:221800, insurance:7127.75, image:''},
+  {variant:'Camry 2.5 HEV (AT)',     model:'CAMRY',          price:248800, insurance:7427.75, image:''},
+  // COROLLA
+  {variant:'Corolla 1.8G (AT)',      model:'COROLLA',        price:144800, insurance:4405.10, image:''},
+  {variant:'Corolla 1.8 GR-S (AT)',  model:'COROLLA',        price:149800, insurance:4685.10, image:''},
+  // VIOS
+  {variant:'Vios 1.5E (AT)',         model:'VIOS',           price:90600,  insurance:3110.98, image:''},
+  {variant:'Vios 1.5G (AT)',         model:'VIOS',           price:96600,  insurance:3130.00, image:''},
+  // YARIS
+  {variant:'Yaris 1.5E (AT)',        model:'YARIS',          price:88600,  insurance:2989.90, image:''},
+  {variant:'Yaris 1.5G (AT)',        model:'YARIS',          price:91600,  insurance:3198.00, image:''},
+  // VELOZ
+  {variant:'Veloz 1.5 (AT)',         model:'VELOZ',          price:95000,  insurance:3400.00, image:''},
+  // INNOVA ZENIX
+  {variant:'Innova Zenix 2.0V (AT)',     model:'INNOVA ZENIX',  price:165000, insurance:5310.00, image:''},
+  {variant:'Innova Zenix 2.0 Hybrid (AT)', model:'INNOVA ZENIX',  price:202000, insurance:6010.00, image:''},
+  // COROLLA CROSS
+  {variant:'Corolla Cross 1.8V (AT)',       model:'COROLLA CROSS', price:133800, insurance:4310.00, image:''},
+  {variant:'Corolla Cross 1.8 HEV (AT)',    model:'COROLLA CROSS', price:140800, insurance:4480.00, image:''},
+  {variant:'Corolla Cross 1.8 GR-S HEV (AT)',model:'COROLLA CROSS', price:150300, insurance:4490.00, image:''},
+  // HILUX
+  {variant:'Hilux S/CAB 2.4 (MT)',        model:'HILUX',  price:106280, insurance:4190.00, image:''},
+  {variant:'Hilux D/CAB 2.4 E (MT)',      model:'HILUX',  price:117880, insurance:4241.85, image:''},
+  {variant:'Hilux D/CAB 2.4 E (AT)',      model:'HILUX',  price:119880, insurance:4367.00, image:''},
+  {variant:'Hilux D/CAB 2.4 V (AT)',      model:'HILUX',  price:149580, insurance:4783.70, image:''},
+  {variant:'Hilux D/CAB 2.8 RG (AT)',     model:'HILUX',  price:163080, insurance:5910.00, image:''},
+  {variant:'Hilux D/CAB 2.8 GR-S (AT)',   model:'HILUX',  price:173280, insurance:6120.00, image:''},
+  // FORTUNER
+  {variant:'Fortuner 2.4 (AT) 4x4',   model:'FORTUNER', price:195880, insurance:5404.00, image:''},
+  {variant:'Fortuner 2.8 VRZ (AT) 4x4', model:'FORTUNER', price:241880, insurance:6773.00, image:''},
+  {variant:'Fortuner 2.7 SRZ (AT) 4x4', model:'FORTUNER', price:202880, insurance:5818.20, image:''},
+  // HARRIER
+  {variant:'Harrier 2.0 Luxury (AT)',    model:'HARRIER', price:274000, insurance:7730.00, image:''},
+  {variant:'Harrier 2.0 Luxury SE (AT)', model:'HARRIER', price:277000, insurance:7870.00, image:''},
+  // VELLFIRE & ALPHARD
+  {variant:'Vellfire 2.5 (AT)',     model:'VELLFIRE', price:448000, insurance:12363.44, image:''},
+  {variant:'Alphard 2.4T EL (AT)',  model:'ALPHARD',  price:548000, insurance:14625.46, image:''},
+  // HIACE
+  {variant:'Hiace PV 3.0D (Commercial)', model:'HIACE', price:123000, insurance:3642.45, image:''},
+  {variant:'Hiace SLWB 2.8D AT (Window Van)', model:'HIACE SLWB', price:172000, insurance:5418.76, image:''},
+];
+
+const el = id => document.getElementById(id);
+const fmt = n => 'RM ' + (Math.round(n*100)/100).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// Populate dropdown
+const variantSel = el('variant');
+DATA.forEach((d,i)=>{ const opt=document.createElement('option'); opt.value=i; opt.textContent=d.variant; variantSel.appendChild(opt); });
+
+function recalc(){
+  const d = DATA[Number(variantSel.value)]; if(!d) return;
+  el('banner').textContent = `TOYOTA ${d.model} — Kemaman (WAWA)`;
+  el('model').value = d.model;
+  el('price').value = fmt(d.price);
+  el('insurance').value = fmt(d.insurance);
+
+  const stdRebate = Number(el('stdRebate').value) || 0;
+  const extraRebate = Number(el('extraRebate').value) || 0;
+  const ncd = Number(el('ncd').value) || 0; el('ncdLabel').textContent = ncd;
+  const dpct = (Number(el('dpct').value)||0)/100;
+  const rate = (Number(el('rate').value)||0)/100;
+
+  const netIns = d.insurance * (1 - ncd/100);
+  const dpRM = d.price * dpct;
+  const loan = d.price - stdRebate - extraRebate - dpRM + netIns;
+
+  el('netIns').value = fmt(netIns);
+  el('dpRM').value = fmt(dpRM);
+  el('loan').value = fmt(loan);
+
+  const pmt = (yrs)=>{
+    const r = rate/12, n = yrs*12;
+    return Math.abs(r===0 ? loan/n : (loan*r)/(1-Math.pow(1+r,-n)));
+  };
+  el('m5').textContent = fmt(pmt(5));
+  el('m7').textContent = fmt(pmt(7));
+  el('m9').textContent = fmt(pmt(9));
+
+  const minM = Math.min(pmt(5),pmt(7),pmt(9));
+  el('eligMsg').textContent = (minM<1500) ? '✅ Cash buyer accepted' :
+                              (minM<2000) ? '✅ Cash/Bank‑in (3 months statements)' :
+                              (minM<3000) ? '✅ Provide salary slip & EPF statements' :
+                              '❌ Monthly payment too high';
+
+  el('modelImg').src = d.image || '';
+}
+
+['change','input'].forEach(ev=>{
+  ['variant','stdRebate','extraRebate','ncd','dpct','rate'].forEach(id=>{
+    document.addEventListener(ev, e=>{ if(e.target && e.target.id===id) recalc(); });
+  });
+});
+
+variantSel.value = 0; recalc();
+</script>
+</body>
+</html>
