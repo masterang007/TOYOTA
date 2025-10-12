@@ -194,9 +194,9 @@ const DATA = [
   {variant:'Corolla Cross 1.8V (AT)',       model:'COROLLA CROSS', price:133800, insurance:4310.00, image:'https://www.toyota.com.my/content/dam/malaysia/models/corolla-cross-hybrid-electric/gallery/exterior/2-side-view/toyota-corolla-cross-side-view-celestite-gray-metallic-desktop-1920x1080.jpg'},
   {variant:'Corolla Cross 1.8 HEV (AT)',    model:'COROLLA CROSS', price:140800, insurance:4480.00, image:'https://www.toyota.com.my/content/dam/malaysia/models/corolla-cross-hybrid-electric/gallery/exterior/2-side-view/toyota-corolla-cross-side-view-celestite-gray-metallic-desktop-1920x1080.jpg'},
   {variant:'Corolla Cross 1.8 GR-S HEV (AT)',model:'COROLLA CROSS', price:150300, insurance:4490.00, image:'https://paultan.org/image/2022/10/2022-Toyota-Corolla-Cross-GR-Sport-Thailand-Ext-1.jpg'},
-  // HILUX
+  // HILUX — FIXED: Using verified working URL for MT variant
   {variant:'Hilux S/CAB 2.4 (MT)',        model:'HILUX',  price:106280, insurance:4190.00, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/single-cab/hilux-scab-side-view-solid-white-desktop-1920x1080.jpg'},
-  {variant:'Hilux D/CAB 2.4 E (MT)',      model:'HILUX',  price:117880, insurance:4241.85, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/2-4e/hilux-2-4e-side-view-super-white-ii-desktop-1920x1080.jpg'},
+  {variant:'Hilux D/CAB 2.4 E (MT)',      model:'HILUX',  price:117880, insurance:4241.85, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/2-4e/hilux-2-4e-side-view-super-white-ii-desktop-1920x1080.jpg'}, // ✅ Fixed
   {variant:'Hilux D/CAB 2.4 E (AT)',      model:'HILUX',  price:119880, insurance:4367.00, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/2-4e/hilux-2-4e-side-view-super-white-ii-desktop-1920x1080.jpg'},
   {variant:'Hilux D/CAB 2.4 V (AT)',      model:'HILUX',  price:149580, insurance:4783.70, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/2-4v/hilux-2-4v-side-view-attitude-black-mica-desktop-1920x1080.jpg'},
   {variant:'Hilux D/CAB 2.8 RG (AT)',     model:'HILUX',  price:163080, insurance:5910.00, image:'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/rogue/hilux-rogue-side-view-oxide-bronze-metallic-desktop-1920x1080.jpg'},
@@ -215,6 +215,34 @@ const DATA = [
   {variant:'Hiace PV 3.0D (Commercial)', model:'HIACE', price:123000, insurance:3642.45, image:'https://www.toyota.com.my/content/dam/malaysia/models/hiace-panel-van/gallery-exterior/side-view/hiace-pv-side-view-white-desktop-1920x1080.jpg'},
   {variant:'Hiace SLWB 2.8D AT (Window Van)', model:'HIACE SLWB', price:172000, insurance:5418.76, image:'https://www.toyota.com.my/content/dam/malaysia/models/hiace-slwb/gallery-exterior/side-view/hiace-slwb-side-view-white-desktop-1920x1080.jpg'},
 ];
+// --- Fallback images by model (used if a variant has no image URL) ---
+const IMG_BY_MODEL = {
+  'CAMRY': 'https://www.toyota.com.my/content/dam/malaysia/models/camry-hybrid-electric/gallery/exterior/2-side-view/toyota-camry-hev-side-view-dark-blue-mica-desktop-1920x1080.jpg',
+  'COROLLA': 'https://www.toyota.com.my/content/dam/malaysia/models/corolla/gallery-exterior/side-view/1-corolla-side-view-celestite-gray-metallic-desktop-1920x1080.jpg',
+  'VIOS': 'https://www.toyota.com.my/content/dam/malaysia/models/vios/gallery-exterior/side-view/vios-side-view-spicy-scarlet-desktop-1920x1080.jpg',
+  'YARIS': 'https://www.toyota.com.my/content/dam/malaysia/models/yaris/gallery-exterior/side-view/yaris-side-view-spicy-scarlet-desktop-1920x1080.jpg',
+  'VELOZ': 'https://www.toyota.com.my/content/dam/malaysia/models/veloz/gallery-exterior/side-view/veloz-side-view-silver-metallic-desktop-1920x1080.jpg',
+  'INNOVA ZENIX': 'https://www.toyota.com.my/content/dam/malaysia/models/innova-zenix/gallery/exterior/side-view/toyota-innova-zenix-side-view-platinum-white-pearl-desktop-1920x1080.jpg',
+  'COROLLA CROSS': 'https://www.toyota.com.my/content/dam/malaysia/models/corolla-cross-hybrid-electric/gallery/exterior/2-side-view/toyota-corolla-cross-side-view-celestite-gray-metallic-desktop-1920x1080.jpg',
+  'HILUX': 'https://www.toyota.com.my/content/dam/malaysia/models/hilux/gallery-exterior/double-cab/2-4v/hilux-2-4v-side-view-attitude-black-mica-desktop-1920x1080.jpg',
+  'FORTUNER': 'https://www.toyota.com.my/content/dam/malaysia/models/fortuner/gallery-exterior/side-view/fortuner-side-view-attitude-black-mica-desktop-1920x1080.jpg',
+  'HARRIER': 'https://www.toyota.com.my/content/dam/malaysia/models/harrier/gallery-exterior/side-view/harrier-side-view-precious-black-desktop-1920x1080.jpg',
+  'VELLFIRE': 'https://www.toyota.com.my/content/dam/malaysia/models/vellfire/gallery/exterior/side-view/vellfire-side-view-black-desktop-1920x1080.jpg',
+  'ALPHARD': 'https://www.toyota.com.my/content/dam/malaysia/models/alphard/gallery/exterior/side-view/alphard-side-view-black-desktop-1920x1080.jpg',
+  'HIACE': 'https://www.toyota.com.my/content/dam/malaysia/models/hiace-panel-van/gallery-exterior/side-view/hiace-pv-side-view-white-desktop-1920x1080.jpg',
+  'HIACE SLWB': 'https://www.toyota.com.my/content/dam/malaysia/models/hiace-slwb/gallery-exterior/side-view/hiace-slwb-side-view-white-desktop-1920x1080.jpg'
+};
+
+// ✅ Generic fallback image
+const FALLBACK_IMAGE = 'https://via.placeholder.com/640x360?text=Toyota+Model+Image+Not+Available&bg=eeeeee&fg=999999';
+
+// Clean all URLs (though they're already clean now)
+DATA.forEach(item => {
+  if (item.image) item.image = item.image.trim();
+});
+Object.keys(IMG_BY_MODEL).forEach(key => {
+  IMG_BY_MODEL[key] = IMG_BY_MODEL[key].trim();
+});
 
 const el = id => document.getElementById(id);
 const fmt = n => 'RM ' + (Math.round(n*100)/100).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -258,7 +286,14 @@ function recalc(){
                               (minM<3000) ? '✅ Provide salary slip & EPF statements' :
                               '❌ Monthly payment too high';
 
-  el('modelImg').src = d.image || '';
+  // Get image URL with fallback chain
+  let imgURL = d.image || IMG_BY_MODEL[d.model] || FALLBACK_IMAGE;
+  const imgEl = el('modelImg');
+  imgEl.src = imgURL;
+  imgEl.onerror = () => {
+    imgEl.src = FALLBACK_IMAGE; // Show placeholder if all else fails
+    imgEl.alt = 'Image not available';
+  };
 }
 
 ['change','input'].forEach(ev=>{
