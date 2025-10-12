@@ -225,7 +225,7 @@ DATA.forEach((d,i)=>{ const opt=document.createElement('option'); opt.value=i; o
 
 function recalc(){
   const d = DATA[Number(variantSel.value)]; if(!d) return;
-  el('banner').textContent = `TOYOTA ${d.model} — Kemaman (WAWA)`;
+  el('banner').textContent = `TOYOTA ${d.model}`;
   el('model').value = d.model;
   el('price').value = fmt(d.price);
   el('insurance').value = fmt(d.insurance);
